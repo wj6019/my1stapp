@@ -18,4 +18,7 @@
 ```bash
 git clone https://github.com/wj6019/my1stapp.git
 cd my1stapp
+
+在和风天气注册一个账号，获取自己的api key
+编辑 main.py 将api key 填写在对应处（有注释）
 python main.py
