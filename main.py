@@ -4,7 +4,7 @@ import webbrowser
 import threading
 
 # 和风天气API配置
-API_KEY = "f735cf5ed7354b729a9a6401bbf7b3c0"  # 替换为你的实际 API Key
+API_KEY = "your api key"  # 替换为你的实际 API Key
 BASE_URL = "https://devapi.qweather.com/v7/weather/3d"  # 3天天气预报接口地址
 CITY_LOOKUP_URL = "https://geoapi.qweather.com/v2/city/lookup"  # 地理信息服务接口地址
 
