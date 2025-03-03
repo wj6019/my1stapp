@@ -16,5 +16,6 @@
 
 ### 1. 克隆项目
 ```bash
-git clone https://github.com/<your-username>/<repository-name>.git
-cd <repository-name>
+git clone https://github.com/wj6019/my1stapp.git
+cd my1stapp
+python main.py
