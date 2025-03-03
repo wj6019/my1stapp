@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>电费扣款系统</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>电费扣款系统</h1>
+    <p>当前用户: {{ current_user.id }}</p>
+    <a href="{{ url_for('logout') }}">注销</a>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="balance_file">上传账户余额文件 (.xlsx):</label>
+        <input type="file" name="balance_file" accept=".xlsx" required><br><br>
+        <label for="bill_file">上传电费账单文件 (.xlsx):</label>
+        <input type="file" name="bill_file" accept=".xlsx" required><br><br>
+        <button type="submit">提交</button>
+    </form>
+    {% if results %}
+    <h2>扣款结果:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>用户ID</th>
+                <th>电费金额</th>
+                <th>扣款状态</th>
+                <th>剩余余额</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result['用户ID'] }}</td>
+                <td>{{ result['电费金额'] }}</td>
+                <td>{{ result['扣款状态'] }}</td>
+                <td>{{ result['剩余余额'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

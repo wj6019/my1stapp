@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>来了老弟！</title>
+    <!-- 引入Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入FontAwesome图标库 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #87CEEB, #B0E0E6);
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+        .weather-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 16px;
+        }
+        .result-box.success {
+            color: #28a745;
+        }
+        .result-box.error {
+            color: #dc3545;
+        }
+        .loading-spinner {
+            display: none;
+            text-align: center;
+        }
+        .loading-spinner i {
+            font-size: 36px;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-container">
+        <h1><i class="fa-solid fa-cloud-sun"></i> 贾总写的第一个小项目：天气查询小工具</h1>
+        <div class="input-group">
+            <input type="text" id="cityInput" class="form-control" placeholder="请输入城市名称" aria-label="城市名称">
+            <button class="btn btn-primary" id="searchButton">查询</button>
+        </div>
+        <div class="loading-spinner" id="loadingSpinner">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+        </div>
+        <div id="resultBox" class="result-box">
+            在这里查看查询结果...
+        </div>
+    </div>
+
+    <!-- 引入jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // 查询按钮点击事件
+            $('#searchButton').on('click', function () {
+                const city = $('#cityInput').val().trim();
+                if (!city) {
+                    alert('请输入城市名称！');
+                    return;
+                }
+
+                // 显示加载动画
+                $('#loadingSpinner').show();
+                $('#resultBox').removeClass('success error').text('正在查询，请稍候...');
+
+                // 发送AJAX请求到后端
+                $.ajax({
+                    url: '/get_weather', // 后端API接口地址
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ city_name: city }),
+                    success: function (response) {
+                        $('#resultBox')
+                            .addClass('success')
+                            .text(response.result);
+                    },
+                    error: function (xhr, status, error) {
+                        $('#resultBox')
+                            .addClass('error')
+                            .text(`查询失败：${xhr.responseJSON.error || '未知错误'}`);
+                    },
+                    complete: function () {
+                        // 隐藏加载动画
+                        $('#loadingSpinner').hide();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
